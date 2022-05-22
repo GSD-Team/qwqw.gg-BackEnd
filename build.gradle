@@ -1,0 +1,58 @@
+buildscript {
+    ext.lombok_version = '1.18.22'
+}
+
+plugins {
+    id "java"
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+subprojects {
+    group = "com.gsd.qwgg"
+    version = "1.0.0"
+
+    apply plugin : 'java'
+    apply plugin : 'org.springframework.boot'
+    apply plugin : 'io.spring.dependency-management'
+
+    dependencies {
+        //Spring Boot Starter
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+        //Third Party
+        implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+        //Lombok
+        implementation "org.projectlombok:lombok:${lombok_version}"
+        annotationProcessor "org.projectlombok:lombok:${lombok_version}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombok_version}"
+
+        //Test
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+project(":qwqwgg-web") {
+    dependencies {
+        implementation project(':qwqwgg-core')
+    }
+}
+
+project(":qwqwgg-external-api") {
+    dependencies {
+        implementation project(":qwqwgg-core")
+    }
+}
+
+
